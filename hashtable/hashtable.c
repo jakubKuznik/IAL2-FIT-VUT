@@ -78,29 +78,39 @@ ht_item_t *ht_search(ht_table_t *table, char *key) {
  */
 void ht_insert(ht_table_t *table, char *key, float value) {
 
+
+  // Find if item is alredy in table 
   ht_item_t *temp_item = ht_search(table, key);
+   
+  // If item is alredy in table just change value. 
   if(temp_item != NULL){
     temp_item->value = value;
     return;
   }
 
+  // Allocate space on heap for new node 
   ht_item_t *new_temp_item = (ht_item_t*) malloc(sizeof(ht_item_t));
+  // If malloc fail
   if(new_temp_item == NULL){
     return;
   }
 
+  // Init 
+  new_temp_item->next = NULL;
   new_temp_item->key = key;
   new_temp_item->value = value;
-  new_temp_item->next = NULL;
 
   int hash = get_hash(key);
 
   temp_item = (*table)[hash];
-  if(temp_item != NULL){
+  if(temp_item != NULL){ // if not on begining 
     new_temp_item->next = temp_item;
+    (*table)[hash] = new_temp_item;
   }
-  (*table)[hash] = new_temp_item;
-
+  else{ //If begin 
+    (*table)[hash] = new_temp_item;
+  }
+  return;
 }
 
 /*
@@ -184,17 +194,19 @@ void ht_delete_all(ht_table_t *table) {
   ht_item_t *temp_item = NULL;
   ht_item_t *temp_item_next = NULL;
 
+  // For every list 
   for(int i = 0; i < HT_SIZE; i++){
     temp_item = (*table)[i];
-    while(temp_item){
+    // Go to end of list 
+    while(temp_item != NULL){
 
       temp_item_next = temp_item->next;
       free(temp_item);
       temp_item = temp_item_next;
 
     }
+    // Init begin to null 
     (*table)[i] = NULL;
-
   }
-
+  return;
 }

@@ -16,6 +16,7 @@ typedef struct bst_node {
   struct bst_node *right; // pravý potomok
 } bst_node_t;
 
+
 void bst_init(bst_node_t **tree);
 void bst_insert(bst_node_t **tree, char key, int value);
 bool bst_search(bst_node_t *tree, char key, int *value);
