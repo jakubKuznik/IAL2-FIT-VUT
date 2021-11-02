@@ -20,6 +20,7 @@
  * možné toto detegovať vo funkcii.
  */
 void bst_init(bst_node_t **tree) {
+  *tree = NULL;
 }
 
 /*
@@ -32,6 +33,24 @@ void bst_init(bst_node_t **tree) {
  * Funkciu implementujte iteratívne bez použitia vlastných pomocných funkcií.
  */
 bool bst_search(bst_node_t *tree, char key, int *value) {
+
+  bst_node_t *temp_node = tree;
+  if (tree != NULL){
+    // till leaf level reached 
+    while(temp_node != NULL){
+      if(key == temp_node->key){
+        *value = tree->value;
+        return true;
+      }
+      // if key is bigger go right
+      else if(key > tree->key){
+        temp_node = tree->right;
+      } // Go left if key is smaller 
+      else{
+        temp_node = tree->left;
+      }
+    }
+  }
   return false;
 }
 
