@@ -66,6 +66,61 @@ bool bst_search(bst_node_t *tree, char key, int *value) {
  * Funkciu implementujte iteratívne bez použitia vlastných pomocných funkcií.
  */
 void bst_insert(bst_node_t **tree, char key, int value) {
+
+
+  bst_node_t *temp = (*tree);
+  bool left;
+  
+  if((*tree) != NULL){
+    
+    // conditon for first node 
+    // If node is same as first node 
+    if((temp->key == key)){
+      temp->value = value;
+      return;
+    }
+          
+    while(true){
+      if (key > temp->key) {
+        if(temp->right == NULL){
+          left = false;
+          break; //store to tree on temp.right 
+        }
+        temp = temp->right;
+      }
+      // if key is smaller go left
+      else if (key < temp->key) {
+        if(temp->left == NULL){
+          left = true;
+          break; //store to tree on temp.right 
+        }
+        temp = temp->left;
+      } // if key is alredy in table 
+      else{
+        (*tree)->value = value;
+        return;
+      }
+    } 
+  }
+
+  if(left == true){
+    temp->left = malloc(sizeof(bst_node_t));
+    if(temp->left == NULL){ //Malloc failed 
+      return;
+    }
+    temp = temp->left;    
+  }
+  else{
+    temp->right = malloc(sizeof(bst_node_t));
+    if(temp->right == NULL){ //Malloc failed 
+      return;
+    }
+    temp = temp->right;    
+  }
+    temp->key = key;
+    temp->value = value;
+    temp->left = NULL;
+    temp->right = NULL;
 }
 
 /*
