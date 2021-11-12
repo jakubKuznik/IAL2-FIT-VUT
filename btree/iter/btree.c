@@ -165,12 +165,23 @@ void bst_replace_by_rightmost(bst_node_t *target, bst_node_t **tree) {
   target->value = temp->value;
 
   if(temp_prev != NULL){
+    temp_prev->right = NULL;
+  }
+  if(temp->left != NULL){
+    temp_prev->right = temp->left;
+  }
+  if(temp_prev == NULL){
+    *tree = temp->left;
+  }
+
+  /*
+  if(temp_prev != NULL){
     if(temp->left != NULL) // Without this my left node could be lost 
       temp_prev->right = temp->left;
     else 
       temp_prev->right = NULL;
   }
-
+  */
   //nerobi
   /*
   if(temp_prev == NULL){
